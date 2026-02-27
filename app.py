@@ -19,6 +19,107 @@ except ImportError:
 # --- ページ設定 ---
 st.set_page_config(page_title="EC画像加工ツール (eBay対応)", page_icon="🛍️", layout="wide")
 
+# --- カスタムCSS ---
+st.markdown("""
+<style>
+    /* メインエリア */
+    .stMainBlockContainer {
+        padding-top: 2rem;
+    }
+
+    /* ヘッダー */
+    h1 {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.2rem !important;
+        font-weight: 800 !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    /* サイドバー */
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    }
+    section[data-testid="stSidebar"] * {
+        color: #e0e0e0 !important;
+    }
+    section[data-testid="stSidebar"] .stSlider label,
+    section[data-testid="stSidebar"] .stCheckbox label,
+    section[data-testid="stSidebar"] .stRadio label {
+        color: #e0e0e0 !important;
+    }
+    section[data-testid="stSidebar"] h2 {
+        color: #82b1ff !important;
+        font-size: 1.1rem !important;
+        border-bottom: 1px solid rgba(130, 177, 255, 0.3);
+        padding-bottom: 0.3rem;
+    }
+    section[data-testid="stSidebar"] hr {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* アップロードエリア */
+    [data-testid="stFileUploader"] {
+        border: 2px dashed #667eea;
+        border-radius: 16px;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+    }
+    [data-testid="stFileUploader"]:hover {
+        border-color: #764ba2;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    }
+
+    /* ボタン */
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 0.6rem 2rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stButton > button[kind="primary"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    /* ダウンロードボタン */
+    .stDownloadButton > button {
+        background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+        border: none;
+        border-radius: 12px;
+        color: white !important;
+        font-weight: 700;
+    }
+
+    /* 成功メッセージ */
+    .stSuccess {
+        border-radius: 12px;
+    }
+
+    /* プログレスバー */
+    .stProgress > div > div > div {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+
+    /* 画像プレビュー */
+    [data-testid="stImage"] {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* サブヘッダー */
+    h3 {
+        color: #444 !important;
+        font-weight: 600 !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # --- セッション状態の初期化 (リセット機能用) ---
 if 'uploader_key' not in st.session_state:
     st.session_state.uploader_key = 0
@@ -145,11 +246,12 @@ with st.sidebar:
     st.button("🗑️ 全てリセット", on_click=reset_app, type="secondary", use_container_width=True)
 
 # --- メイン画面 ---
-st.title("🛍️ EC画像加工ツール (eBay対応)")
+st.title("🛍️ EC画像加工ツール")
 st.markdown("""
-画像をアップロードして、**トリミング**、**AI背景除去**、**リサイズ**を一括処理します。
-eBayモードをONにすると、縦長の画像も自動的に正方形に補正されます。
-""")
+<p style="font-size: 1.1rem; color: #666; margin-top: -0.5rem;">
+AI背景除去 ・ トリミング ・ リサイズ ・ 画質調整を一括処理
+</p>
+""", unsafe_allow_html=True)
 
 uploaded_files = st.file_uploader(
     "ここに画像をドラッグ＆ドロップ (複数可)",
